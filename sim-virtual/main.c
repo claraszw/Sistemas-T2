@@ -6,7 +6,7 @@ typedef struct quadro_fisico
 {
     int R;
     int M;
-    unsigned int endereco;
+    unsigned int endereco; //nao lembrava bem o que era isso, e pra ser unsigned mesmo?
     int time;
 
 }Quadro_fisico;
