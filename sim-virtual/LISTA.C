@@ -4,15 +4,17 @@
 *  Arquivo gerado:              LISTA.c
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
-*
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Gestor:  DI/PUC-Rio
+*  Autores: avs - Arndt von Staa
+*			cs  -  Clara Szwarcman
+*			gs  -  Guilherme Simas
+*			lb  -  Lucas Borges
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  5		 csgslb 03/set/2014 padronização de retornos para teste automatizado
+*								e dos nomes das funções
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -94,20 +96,20 @@
 *  ****/
 
    LIS_tpCondRet LIS_CriarLista( LIS_tppLista *ppLista ,
-             void   ( * ExcluirValor ) ( void * pDado ) )//---------------------------------------
+             void   ( * ExcluirValor ) ( void * pDado ) )
    {
 	  
       *ppLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
       if ( *ppLista == NULL )
       {
-         return LIS_CondRetFaltouMemoria ;//---------------------------------------------------------------
+         return LIS_CondRetFaltouMemoria ;
       } /* if */
 
       LimparCabeca( *ppLista ) ;
 
       (*ppLista)->ExcluirValor = ExcluirValor ;
 
-      return LIS_CondRetOK ; //--------------------------------------------------------------------------------
+      return LIS_CondRetOK ; 
 
    } /* Fim função: LIS  &Criar lista */
 
@@ -118,10 +120,6 @@
 
    void LIS_DestruirLista( LIS_tppLista pLista )
    {
-
-     // #ifdef _DEBUG
-    //     assert( pLista != NULL ) ;
-   //   #endif
 
       LIS_EsvaziarLista( pLista ) ;
 
@@ -139,15 +137,11 @@
 
       tpElemLista * pElem ;
       tpElemLista * pProx ;
-	  
-    //  #ifdef _DEBUG
-    //     assert( pLista != NULL ) ;
-  //    #endif
-      
-	  if(pLista==NULL) /* Lista não existe */
+	        
+	  if ( pLista == NULL ) /* Lista não existe */
 	  {
 		  return LIS_CondRetListaNaoExiste;
-	  }/* end if */
+	  }/* if */
 
       pElem = pLista->pOrigemLista ;
       while ( pElem != NULL )
@@ -174,12 +168,10 @@
 
       tpElemLista * pElem ;
 
-     // #ifdef _DEBUG
-    //     assert( pLista != NULL ) ;
-    //  #endif
-
-		 if(pLista==NULL)
+		 if ( pLista == NULL ) /* Lista não existe */
+		 {
 			 return LIS_CondRetListaNaoExiste;
+		 } /* if */
 
       /* Criar elemento a inerir antes */
 
@@ -223,19 +215,16 @@
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
                                           void * pValor        )
-      
    {
 
       tpElemLista * pElem ;
 
-     // #ifdef _DEBUG
-     //    assert( pLista != NULL ) ;
-     // #endif
-	  printf("%p\n",pLista);
-		 if(pLista==NULL)
+		 if ( pLista == NULL ) /* Lista não existe */
+		 {
 			 return LIS_CondRetListaNaoExiste;
+		 } /* if */
 
-      /* Criar elemento a inerir após */
+      /* Criar elemento a inserir após */
 
          pElem = CriarElemento( pLista , pValor ) ;
          if ( pElem == NULL )
@@ -281,14 +270,12 @@
 
       tpElemLista * pElem ;
 
-   //   #ifdef _DEBUG
-   //      assert( pLista  != NULL ) ;
-   //   #endif
-
-	  if(pLista==NULL)
+	  if ( pLista == NULL ) /* Lista não existe */
+	  {
 			 return LIS_CondRetListaNaoExiste;
+	  } /* if */
 
-      if ( pLista->pElemCorr == NULL )
+      if ( pLista->pElemCorr == NULL ) /* Lista vazia */
       {
          return LIS_CondRetListaVazia ;
       } /* if */
@@ -301,7 +288,8 @@
          {
             pElem->pAnt->pProx   = pElem->pProx ;
             pLista->pElemCorr    = pElem->pAnt ;
-         } else {
+         } else 
+		 {
             pLista->pElemCorr    = pElem->pProx ;
             pLista->pOrigemLista = pLista->pElemCorr ;
          } /* if */
@@ -327,23 +315,20 @@
 *  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void ** pValor)
+   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void ** ppValor)
    {
 
-    //  #ifdef _DEBUG
-     //    assert( pLista != NULL ) ;
-   //   #endif
+	  if ( pLista == NULL ) /* Lista não existe */
+	  {
+		  return LIS_CondRetListaNaoExiste;
+	  } /* if */
 
-	  if(pLista==NULL)
-			 return LIS_CondRetListaNaoExiste;
-
-      if ( pLista->pElemCorr == NULL )
+      if ( pLista->pElemCorr == NULL ) /* Lista vazia */
       {
-		 printf("lista e vazia\n");
-        return LIS_CondRetListaVazia ;
+		  return LIS_CondRetListaVazia ;
       } /* if */
 
-      (*pValor)=pLista->pElemCorr ;
+      (*ppValor)= pLista->pElemCorr->pValor ;
 
 	  return LIS_CondRetOK;
 
@@ -357,12 +342,15 @@
    LIS_tpCondRet LIS_IrInicioLista( LIS_tppLista pLista )
    {
 
-   //   #ifdef _DEBUG
-     //    assert( pLista != NULL ) ;
-     // #endif
+	  if ( pLista == NULL ) /* Lista não existe */
+	  {
+		  return LIS_CondRetListaNaoExiste;
+	  } /* if */
 
-	  if(pLista==NULL)
-			 return LIS_CondRetListaNaoExiste;
+	  if ( pLista->pElemCorr == NULL ) /* Lista vazia */
+      {
+		  return LIS_CondRetListaVazia ;
+      } /* if */
 
       pLista->pElemCorr = pLista->pOrigemLista ;
 
@@ -378,12 +366,15 @@
    LIS_tpCondRet LIS_IrFinalLista( LIS_tppLista pLista )
    {
 
-    //  #ifdef _DEBUG
-      //   assert( pLista != NULL ) ;
-   //   #endif
+	  if ( pLista == NULL ) /* Lista não existe */
+	  {
+		  return LIS_CondRetListaNaoExiste;
+	  } /* if */
 
-	  if(pLista==NULL)
-			 return LIS_CondRetListaNaoExiste;
+	  if ( pLista->pElemCorr == NULL ) /* Lista vazia */
+      {
+		  return LIS_CondRetListaVazia ;
+      } /* if */
 
       pLista->pElemCorr = pLista->pFimLista ;
 
@@ -404,20 +395,16 @@
 
       tpElemLista * pElem ;
 
-    //  #ifdef _DEBUG
-     //    assert( pLista != NULL ) ;
-    //  #endif
-
-	  if(pLista==NULL)
+	  if ( pLista == NULL ) /* Lista não existe */
+	  {
 			 return LIS_CondRetListaNaoExiste;
+	  } /* if */
 
       /* Tratar lista vazia */
 
          if ( pLista->pElemCorr == NULL )
          {
-
             return LIS_CondRetListaVazia ;
-
          } /* fim ativa: Tratar lista vazia */
 
       /* Tratar avançar para frente */
@@ -480,42 +467,26 @@
 
 /***************************************************************************
 *
-*  Função: LIS  &Procurar elemento contendo valor
+*  Função: LIS  &Alterar Valor do Elemento Corrente
 *  ****/
 
-   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
-                                    void * pValor        )
+   LIS_tpCondRet LIS_AlterarValor( LIS_tppLista pLista ,
+                                          void * pValorNovo ) 
    {
+	   if(pLista == NULL) /* Lista não existe */
+	   {
+		   return LIS_CondRetListaNaoExiste;
+	   }/* if */	   
+	   if(pLista->pElemCorr == NULL) /* Lista vazia */
+	   {
+		   return LIS_CondRetListaVazia;
+	   }/* if */
+	  
+	   pLista->pElemCorr->pValor=pValorNovo;
 
-      tpElemLista * pElem ;
+	   return LIS_CondRetOK;
 
-  //    #ifdef _DEBUG
-   //      assert( pLista  != NULL ) ;
-   //   #endif
-
-	  if(pLista==NULL)
-			 return LIS_CondRetListaNaoExiste;
-
-      if ( pLista->pElemCorr == NULL )
-      {
-         return LIS_CondRetListaVazia ;
-      } /* if */
-
-      for ( pElem  = pLista->pElemCorr ;
-            pElem != NULL ;
-            pElem  = pElem->pProx )
-      {
-         if ( pElem->pValor == pValor )
-         {
-            pLista->pElemCorr = pElem ;
-            return LIS_CondRetOK ;
-         } /* if */
-      } /* for */
-
-      return LIS_CondRetNaoAchou ;
-
-   } /* Fim função: LIS  &Procurar elemento contendo valor */
-
+   } /* Fim função: LIS  &Alterar valor do elemento corrente */
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
@@ -551,6 +522,11 @@
 *
 *  $FC Função: LIS  -Criar o elemento
 *
+*  $ED Descrição da função
+*     Cria um elemento de lista com um ponteiro para o valor fornecido,
+*	  aumenta o número de elementos contado pela cabeça da lista mas
+*	  não insere o elemento na lista.
+*
 ***********************************************************************/
 
    tpElemLista * CriarElemento( LIS_tppLista pLista ,
@@ -579,6 +555,11 @@
 /***********************************************************************
 *
 *  $FC Função: LIS  -Limpar a cabeça da lista
+*
+*  $ED Descrição da função
+*    Limpa a cabeça da lista atribuindo NULL a todos os ponteiros
+*    e 0 ao número de elementos.
+*
 *
 ***********************************************************************/
 
