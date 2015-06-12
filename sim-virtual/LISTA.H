@@ -345,6 +345,13 @@ typedef struct LIS_tagLista * LIS_tppLista ;
                                           void * pValorNovo        ) ;
 
 
+
+   //---------------------------------------------------------------------------------------------------------------
+   //função implementada pq endler
+
+   int LIS_ObtemNumElementos(LIS_tppLista pLista);
+
+
 #undef LISTA_EXT
 
 /********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/

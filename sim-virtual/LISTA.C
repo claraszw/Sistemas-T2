@@ -488,6 +488,16 @@
 
    } /* Fim função: LIS  &Alterar valor do elemento corrente */
 
+
+
+   //------------------------------------------------------------------------------------------------------------
+   //função implementada pq endler
+
+   int LIS_ObtemNumElementos(LIS_tppLista pLista)
+   {
+	   return pLista->numElem;
+   }
+
 /*****  Código das funções encapsuladas no módulo  *****/
 
 
