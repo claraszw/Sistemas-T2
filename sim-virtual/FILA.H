@@ -1,5 +1,3 @@
-#include"LISTA.H"
-
 typedef struct FIL_tagFila* FIL_tppFila;
 
 FIL_tppFila FIL_criaFila (int capacidade, void ( * ExcluirValor ) ( void * pDado ) );
@@ -12,4 +10,4 @@ void FIL_apagaFila (FIL_tppFila fila);
 
 int FIL_estaVazia (FIL_tppFila fila);
 
-void mostraCapacidade(FIL_tppFila fila);
+int FIL_contemElem (FIL_tppFila fila, void* pValor, int (*compara) ( void*pValor1 , void*pValor2 ) );

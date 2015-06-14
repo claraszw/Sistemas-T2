@@ -491,11 +491,37 @@
 
 
    //------------------------------------------------------------------------------------------------------------
-   //função implementada pq endler
+  
 
    int LIS_ObtemNumElementos(LIS_tppLista pLista)
    {
 	   return pLista->numElem;
+   }
+
+   LIS_tpCondRet LIS_BuscarElemento(LIS_tppLista pLista , void* pValor , int (*compara) ( void*pValor1 , void*pValor2 ) )
+   {
+	   LIS_tpCondRet ret;
+
+	   if(pLista->numElem==0)
+	   {
+		   return LIS_CondRetListaVazia;
+	   }
+
+	   if((ret=LIS_IrInicioLista(pLista))!=LIS_CondRetOK)
+	   {
+		   return ret;
+	   }/* if */
+
+	   do
+	   {
+		   if(compara(pLista->pElemCorr->pValor,pValor)==0)
+		   {
+			   return LIS_CondRetOK;
+		   }/* if */
+
+	   }while (LIS_AvancarElementoCorrente(pLista,1)!=LIS_CondRetFimLista);
+
+	   return LIS_CondRetFimLista;
    }
 
 /*****  Código das funções encapsuladas no módulo  *****/

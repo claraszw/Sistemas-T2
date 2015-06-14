@@ -1,4 +1,5 @@
 #include "FILA.H"
+#include "LISTA.H"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -53,8 +54,13 @@ int FIL_estaVazia (FIL_tppFila fila)
 	return 0;
 }
 
-void mostraCapacidade(FIL_tppFila fila)
+int FIL_contemElem (FIL_tppFila fila, void* pValor, int (*compara) ( void*pValor1 , void*pValor2 ) )
 {
-	printf("\nCapacidade: %d",fila->capacidade);
-	return;
+	LIS_tpCondRet ret=LIS_BuscarElemento(fila->lista,pValor,compara);
+	if(ret==LIS_CondRetFimLista||ret==LIS_CondRetListaVazia)
+	{
+		return 0;
+	}
+	return 1;
 }
+

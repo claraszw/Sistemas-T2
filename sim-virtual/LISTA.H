@@ -347,9 +347,11 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 
    //---------------------------------------------------------------------------------------------------------------
-   //função implementada pq endler
+  
 
    int LIS_ObtemNumElementos(LIS_tppLista pLista);
+
+   LIS_tpCondRet LIS_BuscarElemento(LIS_tppLista pLista , void* pValor , int (*compara) ( void*pValor1 , void*pValor2 ) );
 
 
 #undef LISTA_EXT
