@@ -1,0 +1,8 @@
+INF1019 - T2
+Alunos: Clara Szwarcman e Guilherme Simas
+Relatorio do simulador de memória virtual
+Parametros utilizados na simulacao: Algoritmo de substituicao-SEG | Arquivo de entrada-compressor.log | Tamanho do quadro de pagina-8KB | Tamanho de memoria fisica disponivel-128KB
+
+Numero de page faults: 108691
+Paginas escritas: 21473
+============fim do log============

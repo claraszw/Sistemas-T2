@@ -65,7 +65,9 @@ void trata_NRU(FILE * fonte, FILE * saida , int num_max , int s, int debug)
 		quadro->R=TRUE;
 
 		if(rw=='W')
+		{
 			quadro->M=TRUE;
+		}
 		else
 			quadro->M=FALSE;
 
@@ -123,11 +125,11 @@ void trata_LRU(FILE * fonte, FILE * saida , int num_max , int s, int debug)
 {
 	LIS_tppLista pLista;
 	Quadro_fisico *quadro, *quadro_lis;
-	int rw,time=0,n=0,pf=0,rd=0;
+	int time=0,n=0,pf=0,rd=0;
+	char rw;
 
 	LIS_CriarLista(&pLista,free);
 	quadro=(Quadro_fisico*)malloc(sizeof(Quadro_fisico));
-	fprintf(saida,"LRU\n");
 	while(fscanf(fonte, "%x %c ", &quadro->endereco, &rw)==2)
 	{
 		quadro->endereco>>=s;
@@ -199,7 +201,8 @@ void trata_SEG(FILE * fonte, FILE * saida , int num_max , int s , int debug)
 	FIL_tppFila pFila = FIL_criaFila(num_max,NULL);
 
 	Quadro_fisico *quadro, *quadro_lis;
-	int rw,time=0,n=0,i,rd=0,pf=0;
+	int time=0,n=0,i,rd=0,pf=0;
+	char rw;
 	quadro=(Quadro_fisico*)malloc(sizeof(Quadro_fisico));
 	
 	while(fscanf(fonte, "%x %c ", &quadro->endereco, &rw)==2)
@@ -209,7 +212,9 @@ void trata_SEG(FILE * fonte, FILE * saida , int num_max , int s , int debug)
 		quadro->R=TRUE;
 
 		if(rw=='W')
+		{
 			quadro->M=TRUE;
+		}
 		else
 			quadro->M=FALSE;
 
@@ -256,7 +261,7 @@ void trata_SEG(FILE * fonte, FILE * saida , int num_max , int s , int debug)
 				{
 					if(debug==TRUE)
 					{
-						fprintf(saida,"Page %u substituida em t=%d\n",quadro_lis->endereco,time);
+						fprintf(saida,"Page %u M:%d substituida em t=%d\n",quadro_lis->endereco,quadro_lis->M,time);
 					}
 				}
 				FIL_insereElem(pFila,(void*)quadro);
@@ -285,10 +290,13 @@ int main(int argc, char *argv[])
     FILE *saida,* fonte = fopen(argv[2],"r");
 	saida = fopen("log.txt","w");
 	fprintf(saida,"INF1019 - T2\nAlunos: Clara Szwarcman e Guilherme Simas\nRelatorio do simulador de memória virtual\nParametros utilizados na simulacao: Algoritmo de substituicao-%s | Arquivo de entrada-%s | Tamanho do quadro de pagina-%dKB | Tamanho de memoria fisica disponivel-%dKB\n",argv[1],argv[2],atoi(argv[3]),atoi(argv[4]));
-	if(strcmp(argv[4],"-D")==0)
+	if(argv[5]!=NULL)
 	{
-		modo_depuracao=TRUE;
-		fprintf(saida,"----------SIMULADOR EM MODO DEPURACAO----------\n");
+		if(strcmp(argv[5],"-D")==0)
+		{
+			modo_depuracao=TRUE;
+			fprintf(saida,"----------SIMULADOR EM MODO DEPURACAO----------\n");
+		}
 	}
     if(fonte==NULL)
     {
